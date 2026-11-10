@@ -1,0 +1,184 @@
+openapi: 3.0.3
+info:
+  title: Website Contacts & Company Info
+  version: 1.0.0
+  contact:
+    url: https://rapidapi.com/KindLogStudio/api/website-contacts-company-info
+  license:
+    name: Proprietary
+    url: https://rapidapi.com/terms
+  description: >-
+    Turn a business website into its public contact details: emails (tagged generic or personal, with a
+    mail-domain check), validated phone numbers in E.164, social profiles on 11 networks, the contact-form
+    URL and a short company profile (name, description, logo, language). Live crawl of the homepage plus up to
+    three contact/about pages. When the live site blocks bots or is down, the closest Wayback Machine snapshot
+    is used instead and marked as `source: archive`. Nothing is stored.
+servers:
+  - url: https://website-contacts-company-info.p.rapidapi.com
+tags:
+  - name: Contacts
+    description: Website contact lookup.
+security:
+  - RapidApiKey: []
+paths:
+  /v1/contacts:
+    get:
+      tags: [Contacts]
+      operationId: getContacts
+      summary: Get contacts and company info for a website
+      description: >-
+        Every crawl outcome returns HTTP 200; read `status` to see what happened. Typical time is 1-3 s,
+        slow or blocked sites can take up to about 40 s.
+      parameters:
+        - name: domain
+          in: query
+          required: true
+          description: Domain or URL of the website. Paths, query strings, `www.`, `http://` and IDNs are accepted.
+          schema: { type: string, example: cafemaltaaustin.com }
+        - name: country
+          in: query
+          required: false
+          description: >-
+            ISO 3166-1 alpha-2 code used to read local phone numbers (e.g. `US`, `GB`, `MY`). If omitted, it is
+            guessed from the domain's country TLD; numbers without a country code may be skipped for .com sites.
+          schema: { type: string, pattern: "^[A-Za-z]{2}$", example: US }
+        - name: emails
+          in: query
+          required: false
+          description: "`all` (default) returns every email found; `generic` returns only role addresses like info@ or sales@."
+          schema: { type: string, enum: [all, generic], default: all }
+      responses:
+        "200":
+          description: Crawl finished. See `status`.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContactsResult" }
+              example:
+                input: cafemaltaaustin.com
+                url: https://www.cafemaltaaustin.com/
+                domain: cafemaltaaustin.com
+                status: contacts_found
+                source: live
+                archivedAt: null
+                redirectedTo: null
+                company:
+                  name: Cafe Malta
+                  description: Experience fresh, Mediterranean-inspired cuisine at Cafe Malta in Austin, Texas. Enjoy relaxed dining with creative dishes featuring local ingredients
+                  logo: https://images.squarespace-cdn.com/content/v1/5e8515d98b047f7e9dcd535a/1586298267935-8P6NFBYBDR3EU72HYGYX/favicon.ico?format=100w
+                  language: en-US
+                emails:
+                  - email: info@cafemaltaaustin.com
+                    type: generic
+                    ownDomain: true
+                    foundOn: https://www.cafemaltaaustin.com/
+                    foundIn: mailto link
+                    domainAcceptsMail: true
+                phones:
+                  - international: +1 512 853 9584
+                    e164: "+15128539584"
+                    country: US
+                    foundOn: https://www.cafemaltaaustin.com/
+                socials:
+                  facebook: [https://www.facebook.com/cafemalta]
+                  instagram: [https://www.instagram.com/cafemalta]
+                contactFormUrl: null
+                pagesChecked: [https://www.cafemaltaaustin.com/]
+                tookMs: 3355
+        "401":
+          description: Missing or wrong RapidAPI credentials.
+        "400":
+          description: Bad parameter.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/InputError" }
+              example: { input: "not a domain", status: invalid_input, error: "domain must be a website domain or URL, e.g. example.com" }
+  /v1/health:
+    get:
+      tags: [Contacts]
+      operationId: health
+      summary: Health check
+      responses:
+        "200":
+          description: Service is up.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { ok: { type: boolean, example: true } }
+        "401":
+          description: Missing or wrong RapidAPI credentials.
+components:
+  securitySchemes:
+    RapidApiKey:
+      type: apiKey
+      in: header
+      name: x-rapidapi-key
+      description: "Your RapidAPI key. Also send the header x-rapidapi-host: website-contacts-company-info.p.rapidapi.com"
+  schemas:
+    ContactsResult:
+      type: object
+      properties:
+        input: { type: string, description: The domain parameter as sent. }
+        url: { type: string, nullable: true, description: Homepage URL that was crawled (after redirects). }
+        domain: { type: string, nullable: true, description: Normalized host of the input. }
+        status:
+          type: string
+          enum: [contacts_found, no_contacts_found, blocked, unreachable, not_html, skipped_social_profile, invalid_input]
+          description: >-
+            `blocked` = the live site refused or showed a bot check and no archive copy exists; `unreachable` = DNS,
+            network error, timeout or 5xx with no archive copy; `skipped_social_profile` = the input is (or redirects
+            to) a social network page.
+        source: { type: string, enum: [live, archive] }
+        archivedAt: { type: string, format: date-time, nullable: true, description: Snapshot time when `source` is `archive`. }
+        redirectedTo: { type: string, nullable: true, description: Final host when the site redirected to a different domain. }
+        company:
+          type: object
+          properties:
+            name: { type: string, nullable: true }
+            description: { type: string, nullable: true }
+            logo: { type: string, nullable: true }
+            language: { type: string, nullable: true }
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              email: { type: string }
+              type: { type: string, enum: [generic, personal] }
+              ownDomain: { type: boolean, description: The email is on the website's own domain. }
+              foundOn: { type: string }
+              foundIn: { type: string, enum: [schema.org, mailto link, page text, page source] }
+              domainAcceptsMail: { type: boolean, nullable: true, description: The email domain has MX (or A) records; null when not checked. }
+        phones:
+          type: array
+          items:
+            type: object
+            properties:
+              international: { type: string }
+              e164: { type: string }
+              country: { type: string, nullable: true }
+              foundOn: { type: string }
+        socials:
+          type: object
+          description: Profile URLs per network. Keys present only when found.
+          properties:
+            facebook: { type: array, items: { type: string } }
+            instagram: { type: array, items: { type: string } }
+            linkedin: { type: array, items: { type: string } }
+            twitter: { type: array, items: { type: string } }
+            tiktok: { type: array, items: { type: string } }
+            youtube: { type: array, items: { type: string } }
+            pinterest: { type: array, items: { type: string } }
+            whatsapp: { type: array, items: { type: string } }
+            telegram: { type: array, items: { type: string } }
+            snapchat: { type: array, items: { type: string } }
+            github: { type: array, items: { type: string } }
+        contactFormUrl: { type: string, nullable: true }
+        pagesChecked: { type: array, items: { type: string } }
+        tookMs: { type: integer }
+    InputError:
+      type: object
+      properties:
+        input: { type: string }
+        status: { type: string, enum: [invalid_input] }
+        error: { type: string }
