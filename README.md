@@ -16,6 +16,11 @@ This repo has the API docs, the OpenAPI spec and ready-to-run examples. The API 
 
 ## How to use
 
+![Step 1: pick a plan](assets/how-to-1.png)
+![Step 2: send a website](assets/how-to-2.png)
+![Step 3: get contacts](assets/how-to-3.png)
+![Step 4: or use Google Sheets](assets/how-to-4.png)
+
 1. **Open the API on RapidAPI** ([link](https://rapidapi.com/smoldesk-studios-team-alpha-001/api/website-contacts-company-info)) and sign up or log in. A free RapidAPI account is enough.
 2. **Pick a plan** on the Pricing tab. BASIC is free (50 Lookups a month) and is fine for trying it out.
 3. **Try it in the browser.** On the Endpoints tab, open `getContacts`, type a website in `domain` (and `US` or your country in `country`), then click **Test Endpoint** / **Run**. The result appears on the right.
