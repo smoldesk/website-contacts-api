@@ -1,0 +1,90 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=block" rel="stylesheet">
+<style>
+:root { --bg:#0A1430; --panel:#111D40; --line:#24345F; --text:#E7EDFB; --muted:#93A3C9; --blue:#3B82F6; --green:#22C55E; --amber:#FBBF24; --pink:#F472B6; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { width:1200px; height:675px; overflow:hidden; background:var(--bg); color:var(--text); font-family:Inter, sans-serif; -webkit-font-smoothing:antialiased;
+  background-image: radial-gradient(rgba(147,163,201,.16) 1.2px, transparent 1.2px); background-size: 26px 26px; }
+.wrap { position:absolute; inset:0; padding:56px 72px; display:grid; grid-template-columns: 380px 1fr; gap:56px; align-items:center; }
+.glow { position:absolute; width:620px; height:620px; right:-160px; top:-200px; border-radius:50%; background:radial-gradient(circle, rgba(59,130,246,.28), transparent 65%); }
+.tag { display:inline-flex; align-items:center; gap:10px; font-family:"JetBrains Mono"; font-size:17px; font-weight:700; letter-spacing:.08em;
+  color:var(--green); border:1.5px solid rgba(34,197,94,.55); border-radius:999px; padding:7px 16px; background:rgba(34,197,94,.08); }
+.tag i { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 12px var(--green); }
+h1 { font-family:"Space Grotesk"; font-size:54px; line-height:1.02; font-weight:700; letter-spacing:-.02em; margin:26px 0 18px; }
+p.sub { font-size:21px; line-height:1.5; color:var(--muted); }
+p.sub b { color:var(--text); font-weight:600; }
+.panel { position:relative; background:var(--panel); border:1.5px solid var(--line); border-radius:20px; overflow:hidden; box-shadow: 0 30px 70px rgba(0,0,0,.45); }
+.bar { height:46px; display:flex; align-items:center; gap:9px; padding:0 18px; border-bottom:1.5px solid var(--line); background:rgba(255,255,255,.02); }
+.bar i { width:12px; height:12px; border-radius:50%; background:#2A3A68; }
+.bar span { margin-left:12px; font-family:"JetBrains Mono"; font-size:14px; color:var(--muted); }
+.body { padding:26px 28px; }
+.mono { font-family:"JetBrains Mono"; }
+/* plans */
+.plan { display:grid; grid-template-columns: 1fr 120px 92px; align-items:center; padding:15px 4px; border-bottom:1px solid var(--line); font-size:21px; }
+.plan:last-child { border-bottom:none; }
+.plan b { font-family:"Space Grotesk"; font-size:23px; font-weight:600; }
+.plan .q { font-family:"JetBrains Mono"; font-size:16px; color:var(--muted); }
+.plan .pr { font-family:"JetBrains Mono"; font-size:20px; text-align:right; }
+.plan.sel { background:rgba(59,130,246,.12); border-radius:12px; border-bottom-color:transparent; padding-left:14px; padding-right:14px; margin:0 -10px; }
+.chip { font-family:"JetBrains Mono"; font-size:12px; font-weight:700; letter-spacing:.06em; color:var(--bg); background:var(--green); border-radius:6px; padding:2px 7px; margin-left:10px; vertical-align:3px; }
+/* request */
+.req { font-family:"JetBrains Mono"; font-size:19px; line-height:1.75; }
+.req .m { color:var(--green); font-weight:700; } .req .u { color:var(--text); } .req .k { color:var(--blue); } .req .v { color:var(--amber); } .req .c { color:#5D6E99; }
+.send { display:inline-flex; align-items:center; gap:12px; margin-top:22px; background:var(--blue); color:#fff; font-family:"Space Grotesk"; font-weight:600; font-size:22px; border-radius:12px; padding:13px 26px; }
+/* json */
+pre { font-family:"JetBrains Mono"; font-size:17.5px; line-height:1.62; color:var(--text); white-space:pre; }
+pre .k { color:#8AB4FF; } pre .s { color:#A7F3C8; } pre .n { color:var(--amber); } pre .p { color:#5D6E99; } pre .g { color:var(--green); font-weight:700; }
+.badge { position:absolute; right:22px; top:62px; font-family:"JetBrains Mono"; font-size:14px; color:var(--green); border:1.5px solid rgba(34,197,94,.55); border-radius:8px; padding:4px 10px; background:rgba(34,197,94,.08); }
+/* sheet */
+.fx { display:flex; gap:14px; align-items:center; font-family:"JetBrains Mono"; font-size:20px; padding:12px 16px; border:1.5px solid var(--line); border-radius:12px; margin-bottom:18px; }
+.fx i { color:#5D6E99; font-style:italic; } .fx b { color:var(--amber); font-weight:700; }
+table { width:100%; border-collapse:collapse; }
+th { font-family:"JetBrains Mono"; font-size:13.5px; font-weight:500; color:var(--muted); text-align:left; padding:10px 8px; border-bottom:1.5px solid var(--line); }
+td { font-size:15.5px; padding:13px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
+td.m { font-family:"JetBrains Mono"; font-size:13.5px; }
+tr.hit td { background:rgba(34,197,94,.08); }
+</style><style>
+body { width:1280px; height:640px; }
+.bw { position:absolute; inset:0; padding:0 72px; display:grid; grid-template-columns: 1fr 470px; gap:48px; align-items:center; }
+.brand { display:flex; align-items:center; gap:18px; }
+.brand svg { width:76px; height:76px; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.4); }
+.brand span { font-family:"JetBrains Mono"; font-size:17px; color:var(--muted); letter-spacing:.04em; }
+.bt { font-family:"Space Grotesk"; font-size:60px; line-height:1.0; font-weight:700; letter-spacing:-.025em; margin:30px 0 18px; }
+.bs { font-size:22px; line-height:1.5; color:var(--muted); max-width:600px; }
+.chips { display:flex; gap:12px; margin-top:30px; flex-wrap:wrap; }
+.chips span { font-family:"JetBrains Mono"; font-size:15px; font-weight:500; border:1.5px solid var(--line); border-radius:999px; padding:8px 16px; color:var(--text); background:rgba(255,255,255,.03); }
+.chips span.g { color:var(--green); border-color:rgba(34,197,94,.55); background:rgba(34,197,94,.08); font-weight:700; }
+.mini pre { font-size:15.5px; line-height:1.6; }
+.mini .req { font-size:15.5px; line-height:1.6; padding-bottom:14px; margin-bottom:14px; border-bottom:1.5px solid var(--line); }
+.foot { position:absolute; right:72px; bottom:34px; font-family:"JetBrains Mono"; font-size:15px; color:var(--muted); }
+</style></head><body><div class="glow"></div><div class="bw"><div><div class="brand"><svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#0B2A7A"/>
+    </linearGradient>
+  </defs>
+  <rect width="500" height="500" rx="110" fill="url(#bg)"/>
+  <!-- browser window -->
+  <rect x="82" y="112" width="336" height="276" rx="30" fill="#FFFFFF"/>
+  <path d="M82 142a30 30 0 0 1 30-30h276a30 30 0 0 1 30 30v26H82z" fill="#DCE6FB"/>
+  <circle cx="116" cy="140" r="9" fill="#2563EB"/>
+  <circle cx="144" cy="140" r="9" fill="#2563EB" opacity="0.6"/>
+  <circle cx="172" cy="140" r="9" fill="#2563EB" opacity="0.35"/>
+  <!-- @ mark -->
+  <g fill="none" stroke="#0B2A7A" stroke-width="20" stroke-linecap="round">
+    <circle cx="250" cy="276" r="34"/>
+    <path d="M284 250v40a24 24 0 0 0 48 0v-14a82 82 0 1 0-36 68"/>
+  </g>
+  <!-- found badge -->
+  <circle cx="392" cy="372" r="58" fill="#22C55E" stroke="#FFFFFF" stroke-width="12"/>
+  <path d="M366 372l18 18 34-36" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<span>API on RapidAPI</span></div><div class="bt">Website Contacts<br>&amp; Company Info API</div><div class="bs">Emails, phones, socials and company profile from any business website. One call.</div><div class="chips"><span class="g">&#10003; pay only when found</span><span class="">archive fallback</span><span class="">nothing stored</span></div></div><div class="panel mini"><div class="bar"><i></i><i></i><i></i><span>200 OK  &#183;  1.1 s</span></div><div class="body"><div class="req"><span class="m">GET</span> <span class="u">/v1/contacts</span><span class="c">?</span><span class="k">domain</span><span class="c">=</span><span class="v">cafemaltaaustin.com</span></div>
+<pre><span class="p">{</span>
+  <span class="k">"status"</span><span class="p">:</span> <span class="g">"contacts_found"</span><span class="p">,</span>
+  <span class="k">"emails"</span><span class="p">: [</span><span class="s">"info@cafemaltaaustin.com"</span><span class="p">],</span>
+  <span class="k">"phones"</span><span class="p">: [</span><span class="s">"+1 512 853 9584"</span><span class="p">],</span>
+  <span class="k">"socials"</span><span class="p">: {</span> <span class="k">"facebook"</span><span class="p">,</span> <span class="k">"instagram"</span> <span class="p">},</span>
+  <span class="k">"company"</span><span class="p">: {</span> <span class="k">"name"</span><span class="p">:</span> <span class="s">"Cafe Malta"</span> <span class="p">}</span>
+<span class="p">}</span></pre></div></div></div></body></html>
