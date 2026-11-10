@@ -14,6 +14,18 @@ Turn any business website into a contact record in one call: **emails, phone num
 
 This repo has the API docs, the OpenAPI spec and ready-to-run examples. The API itself is hosted; you call it through RapidAPI.
 
+## How to use
+
+1. **Open the API on RapidAPI** ([link](https://rapidapi.com/smoldesk-studios-team-alpha-001/api/website-contacts-company-info)) and sign up or log in. A free RapidAPI account is enough.
+2. **Pick a plan** on the Pricing tab. BASIC is free (50 Lookups a month) and is fine for trying it out.
+3. **Try it in the browser.** On the Endpoints tab, open `getContacts`, type a website in `domain` (and `US` or your country in `country`), then click **Test Endpoint** / **Run**. The result appears on the right.
+4. **Copy your key.** The playground shows your `x-rapidapi-key`. Keep it private; you can rotate it any time in RapidAPI under Apps.
+5. **Use it where you work:**
+   - **Google Sheets:** paste [`examples/google-sheets/Code.gs`](examples/google-sheets/Code.gs) into Extensions > Apps Script, add your key, then type `=CONTACTS(A2)` in a cell.
+   - **n8n, Make or Zapier:** use an HTTP request step with the settings in [`docs/no-code.md`](docs/no-code.md).
+   - **A CSV of websites:** run [`examples/python/bulk_csv.py`](examples/python/bulk_csv.py) to get a new CSV with emails, phones and socials.
+   - **Your own code:** see the Quick start below and the [`examples`](examples) folder.
+
 ## Quick start
 
 ```bash
@@ -57,6 +69,8 @@ Response (shortened):
 | [`examples/python/lookup.py`](examples/python/lookup.py) | One lookup in Python, printing emails, phones and socials. |
 | [`examples/python/bulk_csv.py`](examples/python/bulk_csv.py) | Enrich a CSV (try [`leads.example.csv`](examples/python/leads.example.csv)) of websites (e.g. a Google Maps export) into a CSV with emails, phones and socials. Parallel, with retry on rate limits. |
 | [`examples/node/lookup.mjs`](examples/node/lookup.mjs) | One lookup in Node.js 18+ (built-in `fetch`). |
+| [`examples/google-sheets/Code.gs`](examples/google-sheets/Code.gs) | `=CONTACTS(A2)` formula for Google Sheets, with a 6-hour cache. |
+| [`docs/no-code.md`](docs/no-code.md) | Settings for n8n, Make and Zapier HTTP steps. |
 
 Set your key first: `export RAPIDAPI_KEY=your_key_here`.
 
