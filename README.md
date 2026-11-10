@@ -1,8 +1,10 @@
 # Website Contacts & Company Info API
 
+![Website Contacts & Company Info API](assets/banner.png)
+
 Turn any business website into a contact record in one call: **emails, phone numbers, social profiles, contact-form URL and company profile** (name, description, logo, language).
 
-**[Get a free API key on RapidAPI →](https://rapidapi.com/KindLogStudio/api/website-contacts-company-info)**
+**[Get a free API key on RapidAPI →](https://rapidapi.com/smoldesk-studios-team-alpha-001/api/website-contacts-company-info)**
 
 - **You only pay when we find contacts.** Lookups that find nothing, or hit a blocked or unreachable site, don't use your Lookups quota.
 - **Honest hit rate.** On 100 real local-business websites we found contacts on 82 (93% of the sites that had any).
@@ -97,7 +99,7 @@ Full schema: [`openapi.yaml`](openapi.yaml).
 
 ## Plans
 
-A free BASIC plan (50 Lookups/month) is enough to try it. Paid plans start at $15/month. See [pricing on RapidAPI](https://rapidapi.com/KindLogStudio/api/website-contacts-company-info/pricing).
+A free BASIC plan (50 Lookups/month) is enough to try it. Paid plans start at $15/month. See [pricing on RapidAPI](https://rapidapi.com/smoldesk-studios-team-alpha-001/api/website-contacts-company-info/pricing).
 
 ## Use lawfully
 
